@@ -4,8 +4,13 @@ var util = require("util"),
     stream = require("stream"),
     w = require("wodge");
 
+var colWidth = {
+    one: 0    
+};
+
 function monitorStream(stream){
     var name = stream.name || stream.constructor.name;
+    if (name.length > colWidth.one) colWidth.one = name.length;
     console.bold.underline.log(
         "Monitoring: %s [%d, %d]",
         name,
@@ -33,18 +38,28 @@ function monitorStream(stream){
         } else if (evt === "unpipe"){
             msg = util.format("%blue{UNPIPE: %s X %s}", arguments[1], name);
             logMsg(msg);
+        } else if (evt === "readable"){
+            console.log(
+                "%s %green{%s} [%d] %s", 
+                w.padRight(name, colWidth.one),
+                "READABLE", 
+                stream._readableState.length,
+                util.inspect(Buffer.concat(stream._readableState.buffer).slice(0, 40).toString())
+            );
         } else if ([ "readable", "connect" ].indexOf(evt) > -1){
             msg = name + ": " + "%green{" + evt.toUpperCase() + "}";
             logMsg(msg);
             logStats();
         } else if ([ "end", "close", "finish"].indexOf(evt) > -1){
-            msg = name + ": " + "%red{" + evt.toUpperCase() + "}";
-            logMsg(msg);
-            logStats();
+            console.log(
+                "%s %red{%s}", 
+                w.padRight(name, colWidth.one), evt.toUpperCase()
+            );
         } else if (evt === "error"){
-            msg = util.format("%s: %red{ERROR: %s}", name, arguments[1]);
-            logMsg(msg);
-            logStats();
+            console.underline.log(
+                "%s: %red{%s: %s}", 
+                name, evt.toUpperCase(), arguments[1]
+            );
         } else {
             msg = name + ": " + evt.toUpperCase();
             logMsg(msg);
