@@ -6,6 +6,6 @@
   "author": "Lloyd Brookes",
   "dependencies": {
     "console-dope": "~0.2.0",
-    "wodge": "^0.2.1"
+    "wodge": "~0.3.0"
   }
 }
