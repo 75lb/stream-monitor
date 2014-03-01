@@ -1,14 +1,15 @@
 "use strict";
 require("console-dope");
 var util = require("util"),
-    stream = require("stream");
+    stream = require("stream"),
+    w = require("wodge");
 
-module.exports = function monitor(stream, name){
-    name = name || stream.name || stream.constructor.name;
+function monitorStream(stream){
+    var name = stream.name || stream.constructor.name;
     console.bold.underline.log(
-        "Monitoring: %s [%d, %d]", 
+        "Monitoring: %s [%d, %d]",
         name,
-        stream._writableState.highWaterMark, 
+        stream._writableState.highWaterMark,
         stream._readableState.highWaterMark
     );
     function logMsg(msg){
@@ -62,3 +63,7 @@ module.exports = function monitor(stream, name){
         .on("connect", function(){ log("connect"); })
         .on("timeout", function(){ log("timeout"); });
 }
+
+module.exports = function monitor(){
+    w.arrayify(arguments).forEach(monitorStream);
+};
