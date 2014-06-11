@@ -5,6 +5,11 @@ var util = require("util"),
     s = require("string-ting"),
     a = require("array-ting");
 
+
+module.exports = function monitor(){
+    a.arrayify(arguments).forEach(monitorStream);
+};
+
 var colWidth = {
     one: 0    
 };
@@ -13,10 +18,10 @@ function monitorStream(stream){
     var name = stream.name || stream.constructor.name;
     if (name.length > colWidth.one) colWidth.one = name.length;
     dope.bold.underline.log(
-        "Monitoring: %s [%d, %d]",
+        "Monitoring: %s [%s, %s]",
         name,
-        stream._writableState.highWaterMark,
-        stream._readableState.highWaterMark
+        stream._writableState ? stream._writableState.highWaterMark : "n/a",
+        stream._readableState ? stream._readableState.highWaterMark : "n/a"
     );
     function logMsg(){
         dope.underline.log.apply(null, arguments);
@@ -77,6 +82,3 @@ function monitorStream(stream){
         .on("timeout", function(){ log("timeout"); });
 }
 
-module.exports = function monitor(){
-    a.arrayify(arguments).forEach(monitorStream);
-};
