@@ -1,8 +1,9 @@
 "use strict";
-require("console-dope");
 var util = require("util"),
+    dope = require("console-dope"),
     stream = require("stream"),
-    w = require("wodge");
+    s = require("string-ting"),
+    a = require("array-ting");
 
 var colWidth = {
     one: 0    
@@ -11,14 +12,14 @@ var colWidth = {
 function monitorStream(stream){
     var name = stream.name || stream.constructor.name;
     if (name.length > colWidth.one) colWidth.one = name.length;
-    console.bold.underline.log(
+    dope.bold.underline.log(
         "Monitoring: %s [%d, %d]",
         name,
         stream._writableState.highWaterMark,
         stream._readableState.highWaterMark
     );
     function logMsg(){
-        console.underline.log.apply(null, arguments);
+        dope.underline.log.apply(null, arguments);
     }
     function log(evt){
         var msg;
@@ -36,9 +37,9 @@ function monitorStream(stream){
                 buf = Buffer.concat(stream._readableState.buffer);
             }
             
-            console.log(
+            dope.log(
                 "%s %green{%s} [%d] %s", 
-                w.padRight(name, colWidth.one),
+                s.padRight(name, colWidth.one),
                 "READABLE", 
                 stream._readableState.length,
                 buf.slice(0, 80)
@@ -46,21 +47,21 @@ function monitorStream(stream){
         } else if ([ "readable", "connect" ].indexOf(evt) > -1){
             msg = name + ": " + "%green{" + evt.toUpperCase() + "}";
             logMsg(msg); 
-            console.log("stats here");
+            dope.log("stats here");
         } else if ([ "end", "close", "finish"].indexOf(evt) > -1){
-            console.log(
+            dope.log(
                 "%s %red{%s}", 
-                w.padRight(name, colWidth.one), evt.toUpperCase()
+                s.padRight(name, colWidth.one), evt.toUpperCase()
             );
         } else if (evt === "error"){
-            console.underline.log(
+            dope.underline.log(
                 "%s: %red{%s: %s}", 
                 name, evt.toUpperCase(), arguments[1]
             );
         } else {
             msg = name + ": " + evt.toUpperCase();
             logMsg(msg);
-            console.log("stats here");
+            dope.log("stats here");
         }
     }
     stream
@@ -77,5 +78,5 @@ function monitorStream(stream){
 }
 
 module.exports = function monitor(){
-    w.arrayify(arguments).forEach(monitorStream);
+    a.arrayify(arguments).forEach(monitorStream);
 };
