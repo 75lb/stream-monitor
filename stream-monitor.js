@@ -17,18 +17,8 @@ function monitorStream(stream){
         stream._writableState.highWaterMark,
         stream._readableState.highWaterMark
     );
-    function logMsg(msg){
-        console.underline.log(msg);
-    }
-    function logStats(){
-        console.log(
-            "[%d, %s] %bold{%s} [%d, %s]",
-            stream._writableState.length,
-            util.inspect(Buffer.concat(stream._writableState.buffer).slice(0, 20).toString()),
-            name,
-            stream._readableState.length,
-            util.inspect(Buffer.concat(stream._readableState.buffer).slice(0, 20).toString())
-        );
+    function logMsg(){
+        console.underline.log.apply(null, arguments);
     }
     function log(evt){
         var msg;
@@ -39,17 +29,24 @@ function monitorStream(stream){
             msg = util.format("%blue{UNPIPE: %s X %s}", arguments[1], name);
             logMsg(msg);
         } else if (evt === "readable"){
+            var buf;
+            if(stream._readableState.objectMode){
+                buf = JSON.stringify(stream._readableState.buffer[0]) || "";
+            } else {
+                buf = Buffer.concat(stream._readableState.buffer);
+            }
+            
             console.log(
                 "%s %green{%s} [%d] %s", 
                 w.padRight(name, colWidth.one),
                 "READABLE", 
                 stream._readableState.length,
-                util.inspect(Buffer.concat(stream._readableState.buffer).slice(0, 40).toString())
+                buf.slice(0, 80)
             );
         } else if ([ "readable", "connect" ].indexOf(evt) > -1){
             msg = name + ": " + "%green{" + evt.toUpperCase() + "}";
-            logMsg(msg);
-            logStats();
+            logMsg(msg); 
+            console.log("stats here");
         } else if ([ "end", "close", "finish"].indexOf(evt) > -1){
             console.log(
                 "%s %red{%s}", 
@@ -63,7 +60,7 @@ function monitorStream(stream){
         } else {
             msg = name + ": " + evt.toUpperCase();
             logMsg(msg);
-            logStats();
+            console.log("stats here");
         }
     }
     stream

@@ -4,8 +4,10 @@
   "description": "Watch dem pipelines flow! Or not, as the case may be..",
   "main": "stream-monitor.js",
   "author": "Lloyd Brookes",
+  "repository": "https://github.com/75lb/stream-monitor",
   "dependencies": {
     "console-dope": "~0.2.0",
     "wodge": "~0.3.0"
-  }
+  },
+  "devDependencies": {}
 }
