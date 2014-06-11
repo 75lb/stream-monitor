@@ -1,6 +1,6 @@
 {
   "name": "stream-monitor",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Watch dem pipelines flow! Or not, as the case may be..",
   "main": "stream-monitor.js",
   "author": "Lloyd Brookes",
