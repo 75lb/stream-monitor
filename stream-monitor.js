@@ -2,9 +2,8 @@
 var util = require("util"),
     dope = require("console-dope"),
     stream = require("stream"),
-    s = require("string-ting"),
-    a = require("array-ting");
-
+    s = require("string-tools"),
+    a = require("array-tools");
 
 module.exports = function monitor(){
     a.arrayify(arguments).forEach(monitorStream);

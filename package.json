@@ -6,9 +6,9 @@
   "author": "Lloyd Brookes",
   "repository": "https://github.com/75lb/stream-monitor",
   "dependencies": {
-    "array-ting": "^1.0.4",
+    "array-tools": "^1.0.6",
     "console-dope": "~0.3.0",
-    "string-ting": "0.0.1"
+    "string-tools": "^0.1.4"
   },
   "devDependencies": {}
 }
