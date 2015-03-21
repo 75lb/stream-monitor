@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "description": "Watch dem pipelines flow! Or not, as the case may be..",
   "main": "lib/stream-monitor.js",
+  "bin": "bin/cli.js",
   "author": "Lloyd Brookes",
   "repository": "https://github.com/75lb/stream-monitor",
   "dependencies": {
