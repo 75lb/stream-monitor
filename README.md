@@ -4,9 +4,10 @@
 
 <a name="module_stream-monitor"></a>
 ## stream-monitor
-This module extends the base [Stream class](https://nodejs.org/api/stream.html#stream_stream) with a `.monitor()` method. Invoke this method on a stream to print all activity to the console.
+This module extends the base [Stream class](https://nodejs.org/api/stream.html#stream_stream) with a `.monitor()` method. Invoking this method on a stream with print all event activity to the console.
 
 **Example**  
+This script:
 ```js
 var monitor = require("stream-monitor");
 var fs = require("fs");
@@ -15,6 +16,17 @@ fs.createReadStream("file.txt")
     .monitor()
     .pipe(fs.createWriteStream("file-copy.txt"))
     .monitor();
+```
+Will output something like:
+```
+Monitoring: ReadStream [n/a, 65536]
+Monitoring: WriteStream [16384, n/a]
+ReadStream  READABLE [0]
+ReadStream  END
+UNPIPE: ReadStream X WriteStream
+WriteStream FINISH
+ReadStream  CLOSE
+WriteStream CLOSE
 ```
 
 * * *
