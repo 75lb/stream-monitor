@@ -4,14 +4,18 @@
 
 <a name="module_stream-monitor"></a>
 ## stream-monitor
-<a name="exp_module_stream-monitor--monitor"></a>
-### monitor(...streams) ⏏
-**Kind**: Exported function  
+This module extends the base [Stream class](https://nodejs.org/api/stream.html#stream_stream) with a `.monitor()` method. Invoke this method on a stream to print all activity to the console.
 
-| Param | Type | Description |
-| --- | --- | --- |
-| ...streams | <code>stream</code> | the streams to monitor |
+**Example**  
+```js
+var monitor = require("stream-monitor");
+var fs = require("fs");
 
+fs.createReadStream("file.txt")
+    .monitor()
+    .pipe(fs.createWriteStream("file-copy.txt"))
+    .monitor();
+```
 
 * * *
 
