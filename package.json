@@ -1,6 +1,6 @@
 {
   "name": "stream-monitor",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Watch dem pipelines flow! Or not, as the case may be..",
   "main": "lib/stream-monitor.js",
   "author": "Lloyd Brookes",
@@ -12,6 +12,6 @@
   },
   "devDependencies": {},
   "scripts": {
-      "docs": "jsdoc2md -t jsdoc2md/README.hbs lib/*.js > README.md; echo"
+    "docs": "jsdoc2md -t jsdoc2md/README.hbs lib/*.js > README.md; echo"
   }
 }
